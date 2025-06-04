@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -34,8 +34,9 @@ model TipoUsuario {
 model Usuario {
   id             Int          @id @default(autoincrement())
   personaId      Int          @unique
+  username       String        @unique
   contrasena     String
-  tipoUsuarioId  Int
+  tipoUsuarioId  Int             
   persona        Persona      @relation(fields: [personaId], references: [id])
   tipoUsuario    TipoUsuario  @relation(fields: [tipoUsuarioId], references: [id])
 }

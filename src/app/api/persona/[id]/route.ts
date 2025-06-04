@@ -25,9 +25,12 @@ export async function PUT(req: NextRequest, { params }: Params) {
       data
     })
     return NextResponse.json(persona)
-  } catch (error) {
-    return NextResponse.json({ error: 'Error al actualizar' }, { status: 500 })
+  } catch (error: unknown) {
+  if (error instanceof Error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
+  return NextResponse.json({ error: 'Error inesperado' }, { status: 500 })
+}
 }
 
 export async function DELETE(req: NextRequest, { params }: Params) {
@@ -36,7 +39,10 @@ export async function DELETE(req: NextRequest, { params }: Params) {
       where: { id: Number(params.id) }
     })
     return NextResponse.json({ mensaje: 'Eliminado con éxito' })
-  } catch (error) {
-    return NextResponse.json({ error: 'Error al eliminar' }, { status: 500 })
+  } catch (error: unknown) {
+  if (error instanceof Error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
+  return NextResponse.json({ error: 'Error inesperado' }, { status: 500 })
+}
 }
